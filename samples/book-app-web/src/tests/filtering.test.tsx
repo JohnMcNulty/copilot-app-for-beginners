@@ -9,14 +9,17 @@ const defaultFilters: BookFiltersState = {
 };
 
 describe("filterBooks", () => {
-  it("matches title and author searches without depending on letter case", () => {
-    const results = filterBooks(books, {
-      ...defaultFilters,
-      searchTerm: "hobbit"
-    });
+  it.each(["hobbit", "HOBBIT", "HobBit"])(
+    "matches title and author searches without depending on letter case for %s",
+    (searchTerm) => {
+      const results = filterBooks(books, {
+        ...defaultFilters,
+        searchTerm
+      });
 
-    expect(results.map((book) => book.title)).toEqual(["The Hobbit"]);
-  });
+      expect(results.map((book) => book.title)).toEqual(["The Hobbit"]);
+    }
+  );
 
   it("filters by genre and reading status together", () => {
     const results = filterBooks(books, {
